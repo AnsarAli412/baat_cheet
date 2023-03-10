@@ -23,6 +23,7 @@ import 'package:collection/collection.dart';
 class UtilityComponents {
   static Future<dynamic> onBackPressed(BuildContext context) {
     MeetingStore _meetingStore = context.read<MeetingStore>();
+    var width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -31,7 +32,7 @@ class UtilityComponents {
         actionsPadding: EdgeInsets.only(right: 10, left: 10, bottom: 10),
         backgroundColor: Color.fromRGBO(32, 22, 23, 1),
         title: Container(
-          width: 300,
+          width: width -20.0,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -70,7 +71,7 @@ class UtilityComponents {
                         shadowColor:
                             MaterialStateProperty.all(themeSurfaceColor),
                         backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(32, 22, 23, 1),
+                          const Color.fromRGBO(32, 22, 23, 1),
                         ),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -79,11 +80,13 @@ class UtilityComponents {
                               width: 1, color: popupButtonBorderColor),
                           borderRadius: BorderRadius.circular(8.0),
                         ))),
-                    onPressed: () => Navigator.pop(context, false),
+                    onPressed: (){
+                      Navigator.pop(context,);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 12),
-                      child: Text('Nevermind',
+                      child: Text('Never mind',
                           style: GoogleFonts.inter(
                               color: hmsWhiteColor,
                               fontSize: 16,
@@ -106,6 +109,7 @@ class UtilityComponents {
                       ))),
                   onPressed: () => {
                     _meetingStore.leave(),
+                    Navigator.pop(context),
                     Navigator.popUntil(context, (route) => route.isFirst)
                   },
                   child: Padding(

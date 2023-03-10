@@ -72,7 +72,7 @@ class _ScreenControllerState extends State<ScreenController> {
       );
     } else {
       return MeetingPage(
-        isStreamingLink: widget.isStreamingLink,
+        // isStreamingLink: widget.isStreamingLink,
         // meetingLink: widget.meetingLink,
         isRoomMute: widget.isRoomMute,
       );

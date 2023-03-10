@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 import 'package:baat_cheet/common/app_dialogs/audio_device_change_dialog.dart';
 import 'package:baat_cheet/common/widgets/hms_embedded_button.dart';
-import 'package:baat_cheet/common/widgets/stream_timer.dart';
-import 'package:baat_cheet/common/widgets/subtitle_text.dart';
 import 'package:baat_cheet/common/widgets/title_text.dart';
 import 'package:baat_cheet/meeting_modes/full_screen_mode.dart';
 import 'package:baat_cheet/meeting_modes/audio_mode.dart';
@@ -29,13 +27,13 @@ import 'package:tuple/tuple.dart';
 
 class MeetingPage extends StatefulWidget {
   // final String meetingLink;
-  final bool isStreamingLink;
+  //final bool isStreamingLink;
   final bool isRoomMute;
 
   const MeetingPage(
       {Key? key,
       // required this.meetingLink,
-      this.isStreamingLink = false,
+      //this.isStreamingLink = false,
       this.isRoomMute = true})
       : super(key: key);
 
@@ -114,7 +112,7 @@ class _MeetingPageState extends State<MeetingPage> {
   Widget _showPopupMenuButton({required bool isHLSRunning}) {
     return PopupMenuButton(
         tooltip: "leave_end_stream",
-        offset: Offset(0, 45),
+        offset: const Offset(0, 45),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         icon: SvgPicture.asset(
           "assets/icons/leave_hls.svg",
@@ -147,7 +145,7 @@ class _MeetingPageState extends State<MeetingPage> {
                 child: Row(children: [
                   SvgPicture.asset("assets/icons/leave_hls.svg",
                       width: 17, color: themeDefaultColor),
-                  SizedBox(
+                  const SizedBox(
                     width: 12,
                   ),
                   TitleText(
@@ -168,7 +166,7 @@ class _MeetingPageState extends State<MeetingPage> {
                 child: Row(children: [
                   SvgPicture.asset("assets/icons/end_warning.svg",
                       width: 17, color: errorColor),
-                  SizedBox(
+                  const SizedBox(
                     width: 12,
                   ),
                   TitleText(
@@ -256,7 +254,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                             meetingStore.peerTracks.length,
                                             meetingStore.screenShareCount,
                                             meetingStore.meetingMode,
-                                            meetingStore.peerTracks.length > 0
+                                            meetingStore.peerTracks.isNotEmpty
                                                 ? meetingStore.peerTracks[
                                                     meetingStore
                                                         .screenShareCount]
@@ -322,13 +320,13 @@ class _MeetingPageState extends State<MeetingPage> {
                                                 const CircularProgressIndicator(
                                                   strokeWidth: 2,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 if (context
                                                         .read<MeetingStore>()
                                                         .peers.isNotEmpty)
-                                                  Text(
+                                                  const Text(
                                                       "Please wait for broadcaster to join")
                                               ],
                                             ));
@@ -351,7 +349,8 @@ class _MeetingPageState extends State<MeetingPage> {
                                                     MediaQuery.of(context)
                                                             .size
                                                             .height -
-                                                        ((widget.isStreamingLink &&
+                                                        ((
+                                                            // widget.isStreamingLink &&
                                                                 (modeData
                                                                         .item2
                                                                         ?.role
@@ -370,7 +369,8 @@ class _MeetingPageState extends State<MeetingPage> {
                                                     top: 55,
                                                     left: 0,
                                                     right: 0,
-                                                    bottom: (widget.isStreamingLink &&
+                                                    bottom: (
+                                                        // widget.isStreamingLink &&
                                                             (modeData.item2?.role.permissions.hlsStreaming ==
                                                                 true))
                                                         ? 108
@@ -384,7 +384,9 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                 (modeData.item3 ==
                                                                     2))
                                                             ? OneToOneMode(
-                                                                bottomMargin: (widget.isStreamingLink && (modeData.item2?.role.permissions.hlsStreaming == true))
+                                                                bottomMargin: (
+                                                                    // widget.isStreamingLink &&
+                                                                        (modeData.item2?.role.permissions.hlsStreaming == true))
                                                                     ? 272
                                                                     : 235,
                                                                 peerTracks:
@@ -425,6 +427,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
+                                              ///
                                               Row(
                                                 children: [
                                                   Selector<MeetingStore, bool>(
@@ -441,12 +444,12 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                         {},
                                                                 width: 40,
                                                                 height: 40,
-                                                                offColor: Color(
+                                                                offColor: const Color(
                                                                     0xffCC525F),
-                                                                onColor: Color(
+                                                                onColor: const Color(
                                                                     0xffCC525F),
                                                                 disabledBorderColor:
-                                                                    Color(
+                                                                    const Color(
                                                                         0xffCC525F),
                                                                 isActive: false,
                                                                 child: _showPopupMenuButton(
@@ -462,12 +465,12 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                 },
                                                                 width: 40,
                                                                 height: 40,
-                                                                offColor: Color(
+                                                                offColor: const Color(
                                                                     0xffCC525F),
-                                                                onColor: Color(
+                                                                onColor: const Color(
                                                                     0xffCC525F),
                                                                 disabledBorderColor:
-                                                                    Color(
+                                                                    const Color(
                                                                         0xffCC525F),
                                                                 isActive: false,
                                                                 child:
@@ -483,167 +486,171 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                 ),
                                                               );
                                                       }),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
-                                                  Selector<
-                                                          MeetingStore,
-                                                          Tuple4<
-                                                              bool,
-                                                              bool,
-                                                              Map<String, bool>,
-                                                              Map<String,
-                                                                  bool>>>(
-                                                      selector: (_, meetingStore) => Tuple4(
-                                                          ((meetingStore.streamingType[
-                                                                      "rtmp"] ??
-                                                                  false) ||
-                                                              (meetingStore
-                                                                          .streamingType[
-                                                                      "hls"] ??
-                                                                  false)),
-                                                          ((meetingStore.recordingType[
-                                                                      "browser"] ??
-                                                                  false) ||
-                                                              (meetingStore
-                                                                          .recordingType[
-                                                                      "server"] ??
-                                                                  false) ||
-                                                              ((meetingStore
-                                                                          .recordingType[
-                                                                      "hls"] ??
-                                                                  false))),
-                                                          meetingStore
-                                                              .streamingType,
-                                                          meetingStore
-                                                              .recordingType),
-                                                      builder:
-                                                          (_, roomState, __) {
-                                                        if (roomState.item1 ||
-                                                            roomState.item2) {
-                                                          return Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            5.0),
-                                                                    child: SvgPicture
-                                                                        .asset(
-                                                                      "assets/icons/live_stream.svg",
-                                                                      color:
-                                                                          errorColor,
-                                                                      fit: BoxFit
-                                                                          .scaleDown,
-                                                                    ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      if (!roomState
-                                                                              .item1 &&
-                                                                          roomState
-                                                                              .item2) {
-                                                                        Utilities.showToast(
-                                                                            recordingState());
-                                                                      }
-                                                                    },
-                                                                    child: Text(
-                                                                      (roomState.item1 &&
-                                                                              roomState.item2)
-                                                                          ? "Live & Recording"
-                                                                          : (roomState.item1)
-                                                                              ? streamingState()
-                                                                              : (roomState.item2)
-                                                                                  ? "Recording"
-                                                                                  : "",
-                                                                      semanticsLabel:
-                                                                          "fl_live_stream_running",
-                                                                      style: GoogleFonts.inter(
-                                                                          fontSize:
-                                                                              16,
-                                                                          color:
-                                                                              themeDefaultColor,
-                                                                          letterSpacing:
-                                                                              0.5,
-                                                                          fontWeight:
-                                                                              FontWeight.w600),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              roomState.item1
-                                                                  ? Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        (roomState.item3["hls"] ??
-                                                                                false)
-                                                                            ? Row(
-                                                                                children: [
-                                                                                  SvgPicture.asset(
-                                                                                    "assets/icons/clock.svg",
-                                                                                    color: themeSubHeadingColor,
-                                                                                    fit: BoxFit.scaleDown,
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: 6,
-                                                                                  ),
-                                                                                  Selector<MeetingStore, HMSRoom?>(
-                                                                                      selector: (_, meetingStore) => meetingStore.hmsRoom,
-                                                                                      builder: (_, hmsRoom, __) {
-                                                                                        if (hmsRoom != null && hmsRoom.hmshlsStreamingState != null && hmsRoom.hmshlsStreamingState!.variants.length != 0 && hmsRoom.hmshlsStreamingState!.variants[0]!.startedAt != null) {
-                                                                                          return HMSStreamTimer(startedAt: hmsRoom.hmshlsStreamingState!.variants[0]!.startedAt!);
-                                                                                        }
-                                                                                        return SubtitleText(
-                                                                                          text: "00:00",
-                                                                                          textColor: themeSubHeadingColor,
-                                                                                        );
-                                                                                      }),
-                                                                                ],
-                                                                              )
-                                                                            : Container(),
-                                                                        SubtitleText(
-                                                                          text:
-                                                                              " | ",
-                                                                          textColor:
-                                                                              dividerColor,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            SvgPicture.asset(
-                                                                              "assets/icons/watching.svg",
-                                                                              color: themeSubHeadingColor,
-                                                                              fit: BoxFit.scaleDown,
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 6,
-                                                                            ),
-                                                                            Selector<MeetingStore, int>(
-                                                                                selector: (_, meetingStore) => meetingStore.peers.length,
-                                                                                builder: (_, length, __) {
-                                                                                  return SubtitleText(text: length.toString(), textColor: themeSubHeadingColor);
-                                                                                })
-                                                                          ],
-                                                                        )
-                                                                      ],
-                                                                    )
-                                                                  : Container()
-                                                            ],
-                                                          );
-                                                        }
-                                                        return SizedBox();
-                                                      })
+
+
+                                                  // Selector<
+                                                  //         MeetingStore,
+                                                  //         Tuple4<
+                                                  //             bool,
+                                                  //             bool,
+                                                  //             Map<String, bool>,
+                                                  //             Map<String,
+                                                  //                 bool>>>(
+                                                  //     selector: (_, meetingStore) => Tuple4(
+                                                  //         ((meetingStore.streamingType[
+                                                  //                     "rtmp"] ??
+                                                  //                 false) ||
+                                                  //             (meetingStore
+                                                  //                         .streamingType[
+                                                  //                     "hls"] ??
+                                                  //                 false)),
+                                                  //         ((meetingStore.recordingType[
+                                                  //                     "browser"] ??
+                                                  //                 false) ||
+                                                  //             (meetingStore
+                                                  //                         .recordingType[
+                                                  //                     "server"] ??
+                                                  //                 false) ||
+                                                  //             ((meetingStore
+                                                  //                         .recordingType[
+                                                  //                     "hls"] ??
+                                                  //                 false))),
+                                                  //         meetingStore
+                                                  //             .streamingType,
+                                                  //         meetingStore
+                                                  //             .recordingType),
+                                                  //     builder:
+                                                  //         (_, roomState, __) {
+                                                  //       if (roomState.item1 ||
+                                                  //           roomState.item2) {
+                                                  //         return Column(
+                                                  //           mainAxisAlignment:
+                                                  //               MainAxisAlignment
+                                                  //                   .spaceBetween,
+                                                  //           crossAxisAlignment:
+                                                  //               CrossAxisAlignment
+                                                  //                   .start,
+                                                  //           children: [
+                                                  //             Row(
+                                                  //               children: [
+                                                  //                 Padding(
+                                                  //                   padding: const EdgeInsets
+                                                  //                           .only(
+                                                  //                       right:
+                                                  //                           5.0),
+                                                  //                   child: SvgPicture
+                                                  //                       .asset(
+                                                  //                     "assets/icons/live_stream.svg",
+                                                  //                     color:
+                                                  //                         errorColor,
+                                                  //                     fit: BoxFit
+                                                  //                         .scaleDown,
+                                                  //                   ),
+                                                  //                 ),
+                                                  //                 GestureDetector(
+                                                  //                   onTap: () {
+                                                  //                     if (!roomState
+                                                  //                             .item1 &&
+                                                  //                         roomState
+                                                  //                             .item2) {
+                                                  //                       Utilities.showToast(
+                                                  //                           recordingState());
+                                                  //                     }
+                                                  //                   },
+                                                  //                   child: Text(
+                                                  //                     (roomState.item1 &&
+                                                  //                             roomState.item2)
+                                                  //                         ? "Live & Recording"
+                                                  //                         : (roomState.item1)
+                                                  //                             ? streamingState()
+                                                  //                             : (roomState.item2)
+                                                  //                                 ? "Recording"
+                                                  //                                 : "",
+                                                  //                     semanticsLabel:
+                                                  //                         "fl_live_stream_running",
+                                                  //                     style: GoogleFonts.inter(
+                                                  //                         fontSize:
+                                                  //                             16,
+                                                  //                         color:
+                                                  //                             themeDefaultColor,
+                                                  //                         letterSpacing:
+                                                  //                             0.5,
+                                                  //                         fontWeight:
+                                                  //                             FontWeight.w600),
+                                                  //                   ),
+                                                  //                 ),
+                                                  //               ],
+                                                  //             ),
+                                                  //             roomState.item1
+                                                  //                 ? Row(
+                                                  //                     mainAxisAlignment:
+                                                  //                         MainAxisAlignment
+                                                  //                             .spaceBetween,
+                                                  //                     children: [
+                                                  //                       (roomState.item3["hls"] ??
+                                                  //                               false)
+                                                  //                           ? Row(
+                                                  //                               children: [
+                                                  //                                 SvgPicture.asset(
+                                                  //                                   "assets/icons/clock.svg",
+                                                  //                                   color: themeSubHeadingColor,
+                                                  //                                   fit: BoxFit.scaleDown,
+                                                  //                                 ),
+                                                  //                                 const SizedBox(
+                                                  //                                   width: 6,
+                                                  //                                 ),
+                                                  //                                 Selector<MeetingStore, HMSRoom?>(
+                                                  //                                     selector: (_, meetingStore) => meetingStore.hmsRoom,
+                                                  //                                     builder: (_, hmsRoom, __) {
+                                                  //                                       if (hmsRoom != null && hmsRoom.hmshlsStreamingState != null && hmsRoom.hmshlsStreamingState!.variants.length != 0 && hmsRoom.hmshlsStreamingState!.variants[0]!.startedAt != null) {
+                                                  //                                         return HMSStreamTimer(startedAt: hmsRoom.hmshlsStreamingState!.variants[0]!.startedAt!);
+                                                  //                                       }
+                                                  //                                       return SubtitleText(
+                                                  //                                         text: "00:00",
+                                                  //                                         textColor: themeSubHeadingColor,
+                                                  //                                       );
+                                                  //                                     }),
+                                                  //                               ],
+                                                  //                             )
+                                                  //                           : Container(),
+                                                  //                       SubtitleText(
+                                                  //                         text:
+                                                  //                             " | ",
+                                                  //                         textColor:
+                                                  //                             dividerColor,
+                                                  //                       ),
+                                                  //                       Row(
+                                                  //                         children: [
+                                                  //                           SvgPicture.asset(
+                                                  //                             "assets/icons/watching.svg",
+                                                  //                             color: themeSubHeadingColor,
+                                                  //                             fit: BoxFit.scaleDown,
+                                                  //                           ),
+                                                  //                           const SizedBox(
+                                                  //                             width: 6,
+                                                  //                           ),
+                                                  //                           Selector<MeetingStore, int>(
+                                                  //                               selector: (_, meetingStore) => meetingStore.peers.length,
+                                                  //                               builder: (_, length, __) {
+                                                  //                                 return SubtitleText(text: length.toString(), textColor: themeSubHeadingColor);
+                                                  //                               })
+                                                  //                         ],
+                                                  //                       )
+                                                  //                     ],
+                                                  //                   )
+                                                  //                 : Container()
+                                                  //           ],
+                                                  //         );
+                                                  //       }
+                                                  //       return const SizedBox();
+                                                  //     })
                                                 ],
                                               ),
+
+                                              ///
                                               Row(
                                                 children: [
                                                   Selector<MeetingStore, bool>(
@@ -681,7 +688,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                           ),
                                                         );
                                                       }),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 10,
                                                   ),
                                                   Selector<MeetingStore, bool>(
@@ -947,8 +954,10 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                 ?.role
                                                                 .permissions
                                                                 .hlsStreaming ==
-                                                            true) &&
-                                                        widget.isStreamingLink)
+                                                            true)
+                                                        // &&
+                                                        // widget.isStreamingLink,
+                                                    )
                                                       Selector<
                                                               MeetingStore,
                                                               Tuple2<bool,
@@ -965,7 +974,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                             if (data.item1) {
                                                               return Column(
                                                                 children: [
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     height: 10,
                                                                   ),
                                                                   InkWell(
@@ -998,7 +1007,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                               "hls_end_button"),
                                                                     ),
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     height: 5,
                                                                   ),
                                                                   Text(
@@ -1019,7 +1028,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                 .item2) {
                                                               return Column(
                                                                 children: [
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     height: 10,
                                                                   ),
                                                                   InkWell(
@@ -1037,7 +1046,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                               hmsdefaultColor,
                                                                         )),
                                                                   ),
-                                                                  SizedBox(
+                                                                  const SizedBox(
                                                                     height: 5,
                                                                   ),
                                                                   Text(
@@ -1057,7 +1066,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                             }
                                                             return Column(
                                                               children: [
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 10,
                                                                 ),
                                                                 InkWell(
@@ -1096,7 +1105,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                                             "start_hls_button"),
                                                                   ),
                                                                 ),
-                                                                SizedBox(
+                                                                const SizedBox(
                                                                   height: 5,
                                                                 ),
                                                                 Text(
@@ -1283,7 +1292,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                       currentRequest, context);
                                             });
                                           }
-                                          return SizedBox();
+                                          return const SizedBox();
                                         }),
                                     Selector<MeetingStore,
                                             HMSTrackChangeRequest?>(
@@ -1305,7 +1314,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                       context, currentRequest);
                                             });
                                           }
-                                          return SizedBox();
+                                          return const SizedBox();
                                         }),
                                     Selector<MeetingStore, bool>(
                                         selector: (_, meetingStore) =>
@@ -1344,7 +1353,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                       ));
                                             });
                                           }
-                                          return SizedBox();
+                                          return const SizedBox();
                                         }),
                                     Selector<MeetingStore, bool>(
                                         selector: (_, meetingStore) =>
@@ -1355,7 +1364,7 @@ class _MeetingPageState extends State<MeetingPage> {
                                                 .showReconnectingDialog(
                                                     context);
                                           }
-                                          return SizedBox();
+                                          return const SizedBox();
                                         }),
                                   ],
                                 ),

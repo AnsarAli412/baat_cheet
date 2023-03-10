@@ -5,11 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:baat_cheet/common/bottom_sheets/notification_settings_bottom_sheet.dart';
-import 'package:baat_cheet/common/widgets/title_text.dart';
 import 'package:baat_cheet/common/util/app_color.dart';
 import 'package:baat_cheet/common/util/utility_function.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class AppSettingsBottomSheet extends StatefulWidget {
@@ -23,10 +20,10 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
   bool joinWithMutedAudio = true;
   bool joinWithMutedVideo = true;
   bool isDarkMode = true;
-  bool skipPreview = false;
+  bool skipPreview = true;
   bool mirrorCamera = true;
   bool showStats = false;
-  bool isSoftwareDecoderDisabled = true;
+  bool isSoftwareDecoderDisabled = false;
   bool isAudioMixerDisabled = true;
   bool isAutoSimulcast = true;
   var versions = {};
@@ -69,17 +66,11 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
     });
   }
 
-  Future<void> _launchUrl() async {
-    final Uri _url = Uri.parse('https://discord.gg/YtUqvA6j');
-    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
-      throw 'Could not launch $_url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.6,
+      heightFactor: 0.5,
       child: Padding(
         padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
         child: Column(
@@ -125,7 +116,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
               ),
             ),
             Expanded(
-              child: ListView(
+              child: Column(
                 children: [
                   // ListTile(
                   //   enabled: false,
@@ -274,259 +265,266 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                               setState(() {})
                             }),
                   ),
-                  ListTile(
-                    horizontalTitleGap: 2,
-                    enabled: false,
-                    contentPadding: EdgeInsets.zero,
-                    leading: SvgPicture.asset(
-                      'assets/icons/stats.svg',
-                      color: themeDefaultColor,
-                    ),
-                    title: Text(
-                      "Enable Stats",
-                      semanticsLabel: "fl_stats_enable",
-                      style: GoogleFonts.inter(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: showStats,
-                        onChanged: (value) => {
-                              showStats = value,
-                              Utilities.saveBoolData(
-                                  key: 'show-stats', value: value),
-                              setState(() {})
-                            }),
-                  ),
-                  if (Platform.isAndroid)
-                    ListTile(
-                      horizontalTitleGap: 2,
-                      enabled: false,
-                      contentPadding: EdgeInsets.zero,
-                      leading: SvgPicture.asset(
-                        'assets/icons/decoder.svg',
-                        color: themeDefaultColor,
-                      ),
-                      title: Text(
-                        "Software Decoder",
-                        semanticsLabel: "fl_software_decoder_enable",
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      trailing: CupertinoSwitch(
-                          activeColor: hmsdefaultColor,
-                          value: isSoftwareDecoderDisabled,
-                          onChanged: (value) => {
-                                isSoftwareDecoderDisabled = value,
-                                Utilities.saveBoolData(
-                                    key: 'software-decoder-disabled',
-                                    value: value),
-                                setState(() {})
-                              }),
-                    ),
-                  if (Platform.isIOS)
-                    ListTile(
-                      horizontalTitleGap: 2,
-                      enabled: true,
-                      contentPadding: EdgeInsets.zero,
-                      leading: SvgPicture.asset(
-                        'assets/icons/settings.svg',
-                        color: themeDefaultColor,
-                      ),
-                      title: Text(
-                        "Disable Audio Mixer",
-                        semanticsLabel: "fl_track_settings",
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      trailing: CupertinoSwitch(
-                          activeColor: hmsdefaultColor,
-                          value: isAudioMixerDisabled,
-                          onChanged: (value) => {
-                                isAudioMixerDisabled = value,
-                                Utilities.saveBoolData(
-                                    key: 'audio-mixer-disabled', value: value),
-                                setState(() {})
-                              }),
-                    ),
-                  ListTile(
-                    horizontalTitleGap: 2,
-                    enabled: true,
-                    contentPadding: EdgeInsets.zero,
-                    leading: SvgPicture.asset(
-                      'assets/icons/simulcast.svg',
-                      color: themeDefaultColor,
-                    ),
-                    title: Text(
-                      "Enable Auto Simulcast",
-                      semanticsLabel: "fl_auto_simulcast",
-                      style: GoogleFonts.inter(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: isAutoSimulcast,
-                        onChanged: (value) => {
-                              isAutoSimulcast = value,
-                              Utilities.saveBoolData(
-                                  key: 'is-auto-simulcast', value: value),
-                              setState(() {})
-                            }),
-                  ),
-                  ListTile(
-                      horizontalTitleGap: 2,
-                      onTap: () async {
-                        Navigator.pop(context);
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: themeBottomSheetColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            context: context,
-                            builder: (ctx) =>
-                                NotificationSettingsBottomSheet());
-                      },
-                      contentPadding: EdgeInsets.zero,
-                      leading: SvgPicture.asset(
-                        "assets/icons/notification.svg",
-                        fit: BoxFit.scaleDown,
-                        color: themeDefaultColor,
-                      ),
-                      title: Text(
-                        "Modify Notifications",
-                        semanticsLabel: "fl_notification_setting",
-                        style: GoogleFonts.inter(
-                            fontSize: 14,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w600),
-                      )),
-                  ListTile(
-                    horizontalTitleGap: 2,
-                    enabled: true,
-                    onTap: _launchUrl,
-                    contentPadding: EdgeInsets.zero,
-                    leading: SvgPicture.asset(
-                      'assets/icons/bug.svg',
-                      color: themeDefaultColor,
-                    ),
-                    title: Text(
-                      "Ask on Discord",
-                      semanticsLabel: "fl_ask_feedback",
-                      style: GoogleFonts.inter(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: ListTile(
-                      horizontalTitleGap: 2,
-                      enabled: true,
-                      contentPadding: EdgeInsets.zero,
-                      leading: Text(
-                        "App Version",
-                        semanticsLabel: "app_version",
-                        style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      trailing: Text(
-                        widget.appVersion,
-                        semanticsLabel: "app_version",
-                        style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: ListTile(
-                      horizontalTitleGap: 2,
-                      enabled: true,
-                      contentPadding: EdgeInsets.zero,
-                      leading: Text(
-                        "HMSSDK Version",
-                        semanticsLabel: "hmssdk_version",
-                        style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      trailing: Text(
-                        versions["flutter"] ?? "",
-                        semanticsLabel: "hmssdk_version",
-                        style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: themeDefaultColor,
-                            letterSpacing: 0.25,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
 
-                  ListTile(
-                    horizontalTitleGap: 2,
-                    enabled: true,
-                    contentPadding: EdgeInsets.zero,
-                    leading: Text(
-                      Platform.isAndroid
-                          ? "Android SDK Version"
-                          : "iOS SDK Version",
-                      semanticsLabel: Platform.isAndroid
-                          ? "android_sdk_version"
-                          : "iOS_sdk_version",
-                      style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    trailing: Text(
-                      Platform.isAndroid
-                          ? versions["android"] ?? ""
-                          : versions["ios"] ?? "",
-                      semanticsLabel: Platform.isAndroid
-                          ? "android_sdk_version"
-                          : "iOS_sdk_version",
-                      style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
+                  ///
+                  // ListTile(
+                  //   horizontalTitleGap: 2,
+                  //   enabled: false,
+                  //   contentPadding: EdgeInsets.zero,
+                  //   leading: SvgPicture.asset(
+                  //     'assets/icons/stats.svg',
+                  //     color: themeDefaultColor,
+                  //   ),
+                  //   title: Text(
+                  //     "Enable Stats",
+                  //     semanticsLabel: "fl_stats_enable",
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 14,
+                  //         color: themeDefaultColor,
+                  //         letterSpacing: 0.25,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  //   trailing: CupertinoSwitch(
+                  //       activeColor: hmsdefaultColor,
+                  //       value: showStats,
+                  //       onChanged: (value) => {
+                  //             showStats = value,
+                  //             Utilities.saveBoolData(
+                  //                 key: 'show-stats', value: value),
+                  //             setState(() {})
+                  //           }),
+                  // ),
+
+                  ///
+                  // if (Platform.isAndroid)
+                  //   ListTile(
+                  //     horizontalTitleGap: 2,
+                  //     enabled: false,
+                  //     contentPadding: EdgeInsets.zero,
+                  //     leading: SvgPicture.asset(
+                  //       'assets/icons/decoder.svg',
+                  //       color: themeDefaultColor,
+                  //     ),
+                  //     title: Text(
+                  //       "Software Decoder",
+                  //       semanticsLabel: "fl_software_decoder_enable",
+                  //       style: GoogleFonts.inter(
+                  //           fontSize: 14,
+                  //           color: themeDefaultColor,
+                  //           letterSpacing: 0.25,
+                  //           fontWeight: FontWeight.w600),
+                  //     ),
+                  //     trailing: CupertinoSwitch(
+                  //         activeColor: hmsdefaultColor,
+                  //         value: isSoftwareDecoderDisabled,
+                  //         onChanged: (value) => {
+                  //               isSoftwareDecoderDisabled = value,
+                  //               Utilities.saveBoolData(
+                  //                   key: 'software-decoder-disabled',
+                  //                   value: value),
+                  //               setState(() {})
+                  //             }),
+                  //   ),
+                  // if (Platform.isIOS)
+                  //   ListTile(
+                  //     horizontalTitleGap: 2,
+                  //     enabled: true,
+                  //     contentPadding: EdgeInsets.zero,
+                  //     leading: SvgPicture.asset(
+                  //       'assets/icons/settings.svg',
+                  //       color: themeDefaultColor,
+                  //     ),
+                  //     title: Text(
+                  //       "Disable Audio Mixer",
+                  //       semanticsLabel: "fl_track_settings",
+                  //       style: GoogleFonts.inter(
+                  //           fontSize: 14,
+                  //           color: themeDefaultColor,
+                  //           letterSpacing: 0.25,
+                  //           fontWeight: FontWeight.w600),
+                  //     ),
+                  //     trailing: CupertinoSwitch(
+                  //         activeColor: hmsdefaultColor,
+                  //         value: isAudioMixerDisabled,
+                  //         onChanged: (value) => {
+                  //               isAudioMixerDisabled = value,
+                  //               Utilities.saveBoolData(
+                  //                   key: 'audio-mixer-disabled', value: value),
+                  //               setState(() {})
+                  //             }),
+                  //   ),
+
+                  ///
+                  // ListTile(
+                  //   horizontalTitleGap: 2,
+                  //   enabled: true,
+                  //   contentPadding: EdgeInsets.zero,
+                  //   leading: SvgPicture.asset(
+                  //     'assets/icons/simulcast.svg',
+                  //     color: themeDefaultColor,
+                  //   ),
+                  //   title: Text(
+                  //     "Enable Auto Simulcast",
+                  //     semanticsLabel: "fl_auto_simulcast",
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 14,
+                  //         color: themeDefaultColor,
+                  //         letterSpacing: 0.25,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  //   trailing: CupertinoSwitch(
+                  //       activeColor: hmsdefaultColor,
+                  //       value: isAutoSimulcast,
+                  //       onChanged: (value) => {
+                  //             isAutoSimulcast = value,
+                  //             Utilities.saveBoolData(
+                  //                 key: 'is-auto-simulcast', value: value),
+                  //             setState(() {})
+                  //           }),
+                  // ),
+
+                  ///
+                  // ListTile(
+                  //     horizontalTitleGap: 2,
+                  //     onTap: () async {
+                  //       Navigator.pop(context);
+                  //       showModalBottomSheet(
+                  //           isScrollControlled: true,
+                  //           backgroundColor: themeBottomSheetColor,
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(20),
+                  //           ),
+                  //           context: context,
+                  //           builder: (ctx) =>
+                  //               NotificationSettingsBottomSheet());
+                  //     },
+                  //     contentPadding: EdgeInsets.zero,
+                  //     leading: SvgPicture.asset(
+                  //       "assets/icons/notification.svg",
+                  //       fit: BoxFit.scaleDown,
+                  //       color: themeDefaultColor,
+                  //     ),
+                  //     title: Text(
+                  //       "Modify Notifications",
+                  //       semanticsLabel: "fl_notification_setting",
+                  //       style: GoogleFonts.inter(
+                  //           fontSize: 14,
+                  //           color: themeDefaultColor,
+                  //           letterSpacing: 0.25,
+                  //           fontWeight: FontWeight.w600),
+                  //     )),
+
+                  ///
+                  // ListTile(
+                  //   horizontalTitleGap: 2,
+                  //   enabled: true,
+                  //   onTap: _launchUrl,
+                  //   contentPadding: EdgeInsets.zero,
+                  //   leading: SvgPicture.asset(
+                  //     'assets/icons/bug.svg',
+                  //     color: themeDefaultColor,
+                  //   ),
+                  //   title: Text(
+                  //     "Ask on Discord",
+                  //     semanticsLabel: "fl_ask_feedback",
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 14,
+                  //         color: themeDefaultColor,
+                  //         letterSpacing: 0.25,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  // ),
+
+
+                  // SizedBox(
+                  //   height: 30,
+                  //   child: ListTile(
+                  //     horizontalTitleGap: 2,
+                  //     enabled: true,
+                  //     contentPadding: EdgeInsets.zero,
+                  //     leading: Text(
+                  //       "App Version",
+                  //       semanticsLabel: "app_version",
+                  //       style: GoogleFonts.inter(
+                  //           fontSize: 12,
+                  //           color: themeDefaultColor,
+                  //           letterSpacing: 0.25,
+                  //           fontWeight: FontWeight.w400),
+                  //     ),
+                  //     trailing: Text(
+                  //       widget.appVersion,
+                  //       semanticsLabel: "app_version",
+                  //       style: GoogleFonts.inter(
+                  //           fontSize: 12,
+                  //           color: themeDefaultColor,
+                  //           letterSpacing: 0.25,
+                  //           fontWeight: FontWeight.w400),
+                  //     ),
+                  //   ),
+                  // ),
+
+                 ///
+                 //  SizedBox(
+                 //    height: 30,
+                 //    child: ListTile(
+                 //      horizontalTitleGap: 2,
+                 //      enabled: true,
+                 //      contentPadding: EdgeInsets.zero,
+                 //      leading: Text(
+                 //        "HMSSDK Version",
+                 //        semanticsLabel: "hmssdk_version",
+                 //        style: GoogleFonts.inter(
+                 //            fontSize: 12,
+                 //            color: themeDefaultColor,
+                 //            letterSpacing: 0.25,
+                 //            fontWeight: FontWeight.w400),
+                 //      ),
+                 //      trailing: Text(
+                 //        versions["flutter"] ?? "",
+                 //        semanticsLabel: "hmssdk_version",
+                 //        style: GoogleFonts.inter(
+                 //            fontSize: 12,
+                 //            color: themeDefaultColor,
+                 //            letterSpacing: 0.25,
+                 //            fontWeight: FontWeight.w400),
+                 //      ),
+                 //    ),
+                 //  ),
+                  ///
+                  // ListTile(
+                  //   horizontalTitleGap: 2,
+                  //   enabled: true,
+                  //   contentPadding: EdgeInsets.zero,
+                  //   leading: Text(
+                  //     Platform.isAndroid
+                  //         ? "Android SDK Version"
+                  //         : "iOS SDK Version",
+                  //     semanticsLabel: Platform.isAndroid
+                  //         ? "android_sdk_version"
+                  //         : "iOS_sdk_version",
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 12,
+                  //         color: themeDefaultColor,
+                  //         letterSpacing: 0.25,
+                  //         fontWeight: FontWeight.w400),
+                  //   ),
+                  //   trailing: Text(
+                  //     Platform.isAndroid
+                  //         ? versions["android"] ?? ""
+                  //         : versions["ios"] ?? "",
+                  //     semanticsLabel: Platform.isAndroid
+                  //         ? "android_sdk_version"
+                  //         : "iOS_sdk_version",
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 12,
+                  //         color: themeDefaultColor,
+                  //         letterSpacing: 0.25,
+                  //         fontWeight: FontWeight.w400),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 15),
-              child: Center(
-                  child: TitleText(
-                      text: "Made with ❤️ by 100ms",
-                      textColor: themeDefaultColor)),
-            )
           ],
         ),
       ),

@@ -28,7 +28,10 @@ class UserDetailScreen extends StatefulWidget {
 }
 
 class _UserDetailScreenState extends State<UserDetailScreen> {
-  var myToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNmNzE3ODY2N2RjZjgwM2JkYjYzMmQ3Iiwicm9vbV9pZCI6IjYzZmYxNWFkMDQ5ZTJjMjVmZDIzMmQ1OSIsInVzZXJfaWQiOiJlbXp4ZXFucCIsInJvbGUiOiJob3N0IiwianRpIjoiMzI0MjJiZWItODllNy00ZWY1LWI4NmQtYTgwMTgwZDdmNTcwIiwidHlwZSI6ImFwcCIsInZlcnNpb24iOjIsImV4cCI6MTY3NzgyODM5N30.O235QxNaoa3XvkLXsuqHB1hSUkiXVzN58mGLVvGdpAw";
+  // var myToken =
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNmNzE3ODY2N2RjZjgwM2JkYjYzMmQ3Iiwicm9vbV9pZCI6IjY0MDFiZGQ0Y2Q4MTc1NzAxYWFjMDUyOSIsInVzZXJfaWQiOiJrYWx4bmV6ayIsInJvbGUiOiJndWVzdCIsImp0aSI6IjYwOTk2NWJjLTA3MDktNGVkZS1iZDE1LWZlM2JlYzgyZTBkMyIsInR5cGUiOiJhcHAiLCJ2ZXJzaW9uIjoyLCJleHAiOjE2Nzc5MjIxNTB9.kkg4hKQdyUAk-bGD9_-WbAjSuzC_rVuhurxJzcOWqcs";
+
+  var myToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNmNzE3ODY2N2RjZjgwM2JkYjYzMmQ3Iiwicm9vbV9pZCI6IjY0MDZjMmM1ZGE3ZTdjYTgxMjg0MGVhYiIsInVzZXJfaWQiOiJtam9kdG53ZiIsInJvbGUiOiJndWVzdCIsImp0aSI6ImIxNGZjNGRiLTk1YjMtNDhjNC1hYmQ2LTA4N2ViY2Y4MmNhNSIsInR5cGUiOiJhcHAiLCJ2ZXJzaW9uIjoyLCJleHAiOjE2Nzg1MTQ3MDd9.wYkV31Vgg_v7XR_hC3C9GAqO-XTRPUFrL7XUXzqYdkM";
 
   TextEditingController nameController = TextEditingController();
   TextEditingController roomTokenController = TextEditingController();
@@ -189,8 +192,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                             },
                             icon: const Icon(Icons.clear),
                           ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14, horizontal: 16),
                     fillColor: themeSurfaceColor,
                     filled: true,
                     hintText: 'Enter your name here',
@@ -201,7 +204,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                         fontWeight: FontWeight.w400),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: borderColor, width: 1),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
                     border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)))),
               ),
@@ -228,14 +232,14 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                     suffixIcon: nameController.text.isEmpty
                         ? null
                         : IconButton(
-                      onPressed: () {
-                        roomTokenController.text = "";
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.clear),
-                    ),
-                    contentPadding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                            onPressed: () {
+                              roomTokenController.text = "";
+                              setState(() {});
+                            },
+                            icon: const Icon(Icons.clear),
+                          ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14, horizontal: 16),
                     fillColor: themeSurfaceColor,
                     filled: true,
                     hintText: 'Enter room token',
@@ -246,7 +250,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                         fontWeight: FontWeight.w400),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: borderColor, width: 1),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
                     border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)))),
               ),
@@ -303,7 +308,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
           ),
           context: context,
           builder: (ctx) => AppSettingsBottomSheet(
-                appVersion: "9.0",
+                appVersion: "",
                 // appVersion: _packageInfo.version +
                 //     " (${_packageInfo.buildNumber})",
               ))),
